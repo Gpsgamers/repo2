@@ -12,7 +12,7 @@ public class elements {
 	By signup_createAccount = By.xpath("//button[text()='Create Account']");
 	By signup_login = By.xpath("//*[text()='Sign In']");
 	
-	By login_email = By.xpath("//input[@name='email']");
+	By login_email = By.xpath("//input[@label='email']");
 	By login_password = By.xpath("//input[@name='password']");
 	By login_signin = By.xpath("//div[contains(text(),'Sign In')]");
 

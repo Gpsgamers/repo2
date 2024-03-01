@@ -12,29 +12,31 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-public class Runner{
-	public WebDriver driver;
+public class Runner {
+	public static WebDriver driver;
 	public test_step method = new test_step();
-	List<String> mail;
+	public static List<String> mail;
 	public int planid;
+
 	@Given("generate email")
 	public void generate_email() {
-		mail =method.email();
+		mail = method.email1();
 	}
 
 	@When("signup")
 	public void signup() {
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
-		
+		driver.manage().deleteAllCookies();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
 		driver.get("https://onthefly-qa.contus.us/register");
-	    method.signup(driver,mail.get(1));
+		method.signup(driver, mail.get(1));
 	}
 
 	@Then("verify email")
 	public void verify_email() {
 		String current = driver.getWindowHandle();
-		method.emailVerification(new ChromeDriver(),mail.get(0));
+		method.emailVerification(new ChromeDriver(), mail.get(0));
 		driver.switchTo().window(current);
 		driver.navigate().refresh();
 		method.logout(driver);
@@ -51,7 +53,9 @@ public class Runner{
 
 	@And("choose the plan {int} and {string}")
 	public void choose_the_plan_and(Integer int1, String string) {
-	    driver.get("https://onthefly-qa.contus.us/register?planid="+int1+"&mode="+string);
+	    String link = "https://onthefly-qa.contus.us/register?planid="+int1+"&mode="+string;
+	    driver.get(link);
+	    driver.findElement(method.signup_login).click();
 	}
 
 	@When("login")
@@ -61,9 +65,9 @@ public class Runner{
 
 	@Then("page navigation {string}")
 	public void page_navigation(String string) {
-	    if(driver.getCurrentUrl().contains(string)) {
-	    	
-	    }
+		if (driver.getCurrentUrl().contains(string)) {
+
+		}
 	}
-	
+
 }

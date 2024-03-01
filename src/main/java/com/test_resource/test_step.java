@@ -52,6 +52,20 @@ public class test_step extends elements {
 		driver.findElement(logout_button).click();
 	}
 	
+	public List email1(){
+		 String AlphaNumericStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz0123456789";
+		 String email = new String(); 
+		 List mail = new ArrayList<String>();
+		 int i;
+		 while (email.length() < 18) { 
+			 int index = (int)(AlphaNumericStr.length() * Math.random());
+			 email =email+AlphaNumericStr.charAt(index);
+		 }
+		 mail.add(email);
+		 mail.add(email+"@guerrillamail.com");
+		 return mail;
+	}
+	
 	public List<String> email() {
 		String email_id = null ;
 		String email = null;
