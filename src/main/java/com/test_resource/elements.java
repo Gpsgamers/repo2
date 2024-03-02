@@ -15,13 +15,15 @@ public class elements {
 	By login_email = By.xpath("//input[@label='email']");
 	By login_password = By.xpath("//input[@name='password']");
 	By login_signin = By.xpath("//div[contains(text(),'Sign In')]");
+	By login_signup = By.xpath("//*[text()='Sign Up']");
 
 	By stripe_cardNumber = By.xpath("//input[contains(@id,'cardNumber')]");
 	By stripe_cardExpiry = By.xpath("//input[contains(@id,'cardExpiry')]");
 	By stripe_cardCvc = By.xpath("//input[contains(@id,'cardCvc')]");
 	By stripe_billingName = By.xpath("//input[contains(@id,'billingName')]");
 	By stripe_subscribe = By.xpath("//span[contains(text(),'Processing...')]");
-	By stripe_back = By.xpath("//a[contains(@title,'Contus')]");
+	By stripe_back_mouse = By.xpath("//a[contains(@title,'Contus')]");
+	By stripe_back = By.xpath("//span[contains(text(),'Back')]");
 	
 	By payment_ok = By.xpath("//button[contains(text(),'OK')]");
 	

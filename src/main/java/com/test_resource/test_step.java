@@ -1,5 +1,6 @@
 package com.test_resource;
 
+import java.awt.event.WindowEvent;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.time.Duration;
@@ -10,6 +11,7 @@ import java.util.Properties;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WindowType;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 
 public class test_step extends elements {
@@ -25,19 +27,21 @@ public class test_step extends elements {
 		driver.findElement(signup_createAccount).click();
 	}
 
-	public void emailVerification(WebDriver driver,String email) {
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-		driver.manage().window().maximize();
-		driver.get("https://www.guerrillamail.com/");
-		driver.findElement(By.xpath("//span[@title='Click to Edit']")).click();
-		driver.findElement(By.xpath("(//input[@type='text'])[2]")).sendKeys(email);
-		driver.findElement(By.xpath("//button[text()='Set']")).click();
-		sel = new Select(driver.findElement(By.xpath("//select[@id='gm-host-select']")));   
+	public void emailVerification(String email,WebDriver driver2,String current) {
+		WebDriver driver1 = new ChromeDriver();
+		driver1.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver1.manage().window().maximize();
+		driver1.get("https://www.guerrillamail.com/");
+		driver1.findElement(By.xpath("//span[@title='Click to Edit']")).click();
+		driver1.findElement(By.xpath("(//input[@type='text'])[2]")).sendKeys(email);
+		driver1.findElement(By.xpath("//button[text()='Set']")).click();
+		sel = new Select(driver1.findElement(By.xpath("//select[@id='gm-host-select']")));   
 		sel.selectByVisibleText("guerrillamail.com");
-		driver.findElement(By.xpath("//td[contains(text(),'Welcome to OnTheFly')]")).click();
-		String link = driver.findElement(By.xpath("//a[contains(text(),'Activate Account')]")).getAttribute("href");
-		driver.get(link);
-		driver.quit();
+		driver1.findElement(By.xpath("//td[contains(text(),'Welcome to OnTheFly')]")).click();
+		String link = driver1.findElement(By.xpath("//a[contains(text(),'Activate Account')]")).getAttribute("href");
+		driver1.get(link);
+		driver1.quit();
+		driver2.switchTo().window(current);
 	}
 	
 	public void login(WebDriver driver,String email,String password) {
@@ -95,6 +99,14 @@ public class test_step extends elements {
 		mail.add(email_id);
 		return mail;
 	}
+	public void payment(WebDriver driver) {
+		driver.findElement(stripe_cardNumber).sendKeys("4242424242424242");
+		driver.findElement(stripe_cardExpiry).sendKeys("12/27");
+		driver.findElement(stripe_cardCvc).sendKeys("111");
+		driver.findElement(stripe_billingName).sendKeys("contus");
+		driver.findElement(stripe_subscribe).click();
+		driver.findElement(payment_ok).click();
+	}
 	
 	public void change_plan_marketing_site(WebDriver driver,int plan,String mode,String action, List<String> email_id) {
 		String register_link = "https://onthefly-qa.contus.us/register?planid="+plan+"&mode="+mode;
@@ -104,15 +116,19 @@ public class test_step extends elements {
 		case "login":
 			driver.findElement(signup_login).click();
 			login(driver, email_id.get(1), "Welcome@123");
+			payment(driver);
 			break;
 			
-		case "register":
+		case "register with emailverification":
 			signup(driver, email_id.get(1));
-			String current=driver.getWindowHandle();
-			emailVerification(driver, email_id.get(0));
-			driver.switchTo().window(current);
+			emailVerification(email_id.get(0),driver,driver.getWindowHandle());
 			driver.navigate().refresh();
 			logout(driver);
+			break;
+		
+		case "register without emailverification":
+			signup(driver, email_id.get(1));
+			driver.manage().deleteAllCookies();
 			break;
 
 		default:
