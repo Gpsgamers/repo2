@@ -88,8 +88,10 @@ public class Runner {
 			driver.findElement(method.stripe_back).click();
 			driver.findElement(method.payment_ok).click();
 			method.logout(driver);
-		}
+		}else {
 			method.logout(driver);
+		}
+			
 	}
 
 }
