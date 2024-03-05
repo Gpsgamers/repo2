@@ -46,7 +46,7 @@ public class Runner {
 	}
 
 	@Given("set the credential to current plan {int} and {string} with {int}")
-	public void set_the_credential_to_current_plan_and_with(Integer int1, String string, Integer int2) {
+	public void set_the_credential_to_current_plan_and_with(Integer int1, String string, Integer int2) throws InterruptedException {
 		if (int1 != 1 && int2 == 1) {
 			method.change_plan_marketing_site(driver, int1, string, "login", mail);
 			method.logout(driver);
@@ -66,9 +66,9 @@ public class Runner {
 
 	@And("choose the plan {int} and {string}")
 	public void choose_the_plan_and(Integer int1, String string) {
-		String link = "https://onthefly-qa.contus.us/register?planid=" + int1 + "&mode=" + string;
+		String link = "https://onthefly-qa.contus.us/login?planid=" + int1 + "&mode=" + string;
 		driver.get(link);
-		driver.findElement(method.signup_login).click();
+		//driver.findElement(method.signup_login).click();
 	}
 
 	@When("login")
@@ -78,7 +78,7 @@ public class Runner {
 
 	@Then("page navigation {string}")
 	public void page_navigation(String string) throws InterruptedException, AWTException {
-		Thread.sleep(6000);
+		Thread.sleep(3000);
 		//WebElement until = wait1.until(ExpectedConditions.visibilityOfElementLocated(method.stripe_back));
 		System.out.println(driver.getCurrentUrl().contains(".stripe."));
 		System.out.println(driver.getCurrentUrl());

@@ -21,7 +21,13 @@ public class elements {
 	By stripe_cardExpiry = By.xpath("//input[contains(@id,'cardExpiry')]");
 	By stripe_cardCvc = By.xpath("//input[contains(@id,'cardCvc')]");
 	By stripe_billingName = By.xpath("//input[contains(@id,'billingName')]");
-	By stripe_subscribe = By.xpath("//span[contains(text(),'Processing...')]");
+	By stripe_billing_country = By.xpath("//select[@id='billingCountry']");
+	By stripe_billing_addressline1 = By.xpath("//input[@id='billingAddressLine1']");
+	By stripe_billing_addressline2 = By.xpath("//input[@id='billingAddressLine2']");
+	By stripe_billing_locality = By.xpath("//input[@id='billingLocality']");
+	By stripe_billing_billingPostalCode = By.xpath("//input[@id='billingPostalCode']");
+	By stripe_state = By.xpath("//select[@id='billingAdministrativeArea']");
+	By stripe_subscribe = By.xpath("//button[@type='submit']");
 	By stripe_back_mouse = By.xpath("//a[contains(@title,'Contus')]");
 	By stripe_back = By.xpath("//span[contains(text(),'Back')]");
 	
